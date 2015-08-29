@@ -1,6 +1,6 @@
 RSpec.shared_examples "compliant" do
   it "when the response is sent in full works with predefined Content-Length" do | example |
-    parts = TestDownload.perform("http://0.0.0.0:9393/with-content-length")
+    parts = TestDownload.perform("http://0.0.0.0:#{port}/with-content-length")
     timings = parts.map(&:time_difference)
     
 #   $postrun.puts ""
@@ -22,7 +22,7 @@ RSpec.shared_examples "compliant" do
   end
 
   it 'when the response is sent in full works with chunked encoding' do | example |
-    parts = TestDownload.perform("http://0.0.0.0:9393/chunked")
+    parts = TestDownload.perform("http://0.0.0.0:#{port}/chunked")
     timings = parts.map(&:time_difference)
     
 #    $postrun.puts example.full_description
@@ -47,7 +47,7 @@ RSpec.shared_examples "compliant" do
     # completely and potentially buffer it in memory, filling up your RAM. We need to ensure that the server
     # uses it's internal mechanics to stop reading the body once the client is dropped.
     pid = fork do
-      TestDownload.perform("http://0.0.0.0:9393/with-content-length")
+      TestDownload.perform("http://0.0.0.0:#{port}/with-content-length")
     end
     sleep(1)
     Process.kill("KILL", pid)
