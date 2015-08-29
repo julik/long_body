@@ -47,7 +47,7 @@ Streaming a large file, without buffering:
 
 This gem is tested on Ruby 2.2, and should run acceptably well on Ruby 2.+. If you are using Thin you have to
 use Ruby 2.+ because of the fiber stack size limitation. If you are using Puma, Rainbows or other threaded
-server running this gem on 1.9.2 should be possible as well.
+server running this gem on 1.9.3+ should be possible as well.
 
 <table>
   <tr><th>Webserver</th><th>Version tested</th><th>Compatibility</th></tr>
