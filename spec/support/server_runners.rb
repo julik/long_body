@@ -57,5 +57,6 @@ SERVERS = [
   RunningServer.new(:thin, "bundle exec thin --port %d --rackup %s start", 9394),
   RunningServer.new(:rainbows, "bundle exec rainbows --port %d %s", 9395),
   RunningServer.new(:passenger, "bundle exec passenger start  --port %d --rackup %s", 9396),
+  RunningServer.new(:unicorn, "bundle exec unicorn --port %d %s", 9397),
 ]
 
