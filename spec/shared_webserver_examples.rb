@@ -40,7 +40,13 @@ RSpec.shared_examples "compliant" do
       expect(received_after_previous).to be_within(1).of(0.3)
     end
   end
-
+  
+  it 'raises an error if no Content-Length or chunked transfer encoding is set' do
+    parts = TestDownload.perform("http://0.0.0.0:#{port}/error-with-unclassified-body")
+    response_body = parts.join
+    expect(response_body).to include('If uncertain, insert Rack')
+  end
+  
   it 'when the HTTP client process is killed midflight, does not read more chunks from the body object' do
     # This test checks whether the server makes the iterable body complete if the client closes the connection
     # prematurely. If you have the callbacks set up wrong on Thin, for instance, it will read the response

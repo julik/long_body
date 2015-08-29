@@ -34,6 +34,12 @@ class StreamerWithLength < Streamer
   end
 end
 
+map '/error-with-unclassified-body' do
+  use Rack::ShowExceptions
+  use LongBody
+  run ->(env) { [200, {}, %w( one two three )]}
+end
+
 map '/chunked' do
   use LongBody
   use Rack::Chunked
