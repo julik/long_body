@@ -7,8 +7,9 @@ RSpec.shared_examples "compliant" do
 #   $postrun.puts "#{example.full_description} part receive timings: #{timings.inspect}"
 #   $postrun.puts ""
 
-    expect(File).to exist('/tmp/streamer_close.mark')
-  
+    expect(parts.length).to be > 1, "The response should have been sent in multiple distinct bursts, unbufferred"
+    expect(File).to exist('/tmp/streamer_close.mark'), "close() should have been called on the response body"
+    
     # Ensure the time recieved of each part is within the tolerances, and certainly
     # at least 1 second after the previous
     (1..(parts.length-1)).each do | part_i|
@@ -29,7 +30,8 @@ RSpec.shared_examples "compliant" do
 #    $postrun.puts "Part receive timings: #{timings.inspect}"
 #    $postrun.puts ""
     
-    expect(File).to exist('/tmp/streamer_close.mark')
+    expect(parts.length).to be > 1, "The response should have been sent in multiple distinct bursts, unbufferred"
+    expect(File).to exist('/tmp/streamer_close.mark'), "close() should have been called on the response body"
   
     (1..(parts.length-1)).each do | part_i|
       this_part = parts[part_i]
@@ -49,16 +51,8 @@ RSpec.shared_examples "compliant" do
 #    $postrun.puts "Part receive timings: #{timings.inspect}"
 #    $postrun.puts ""
     
-    expect(File).to exist('/tmp/streamer_close.mark')
-  
-    (1..(parts.length-1)).each do | part_i|
-      this_part = parts[part_i]
-      previous_part = parts[part_i -1]
-      received_after_previous = this_part.time_difference - previous_part.time_difference
-      
-      # Ensure there was some time before this chunk arrived. This is the most important test.
-      expect(received_after_previous).to be_within(1).of(0.3)
-    end
+    # TODO: just add a test for the right HTTP status.
+    expect(File).to exist('/tmp/streamer_close.mark'), "close() should have been called on the response body"
   end
   
   
