@@ -7,12 +7,6 @@
 # For more on this:
 # http://apidock.com/ruby/IO/write_nonblock
 # http://old.blog.phusion.nl/2013/01/23/the-new-rack-socket-hijacking-api/
-#
-# By using this class as a middleware you will put a select() wait
-# spinlock on the output socket of the webserver.
-#
-# The middleware will only trigger for 200 and 206 responses, and only
-# if the Rack handler it is running on supports rack hijacking.
 module LongBody::HijackHandler
   extend self
   HIJACK_HEADER = 'rack.hijack'.freeze
