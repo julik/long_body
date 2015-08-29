@@ -1,5 +1,7 @@
 # long_body
 
+[![Build Status](https://travis-ci.org/julik/long_body.svg?branch=master)](https://travis-ci.org/julik/long_body)
+
 Universal Rack middleware for immediate (after-headers) streaming of long Rack response bodies.
 Normally most Rack handler webservers will buffer your entire response, or buffer your response
 without telling you for some time before sending it.
@@ -45,7 +47,7 @@ Streaming a large file, without buffering:
 
 ## Compatibility
 
-This gem is tested on Ruby 2.2, and should run acceptably well on Ruby 2.+. If you are using Thin you have to
+This gem is tested on Ruby 2.2, and should run acceptably well on Ruby 2.+. If you are using Thin it is recommended to
 use Ruby 2.+ because of the fiber stack size limitation. If you are using Puma, Rainbows or other threaded
 server running this gem on 1.9.3+ should be possible as well.
 
