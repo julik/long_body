@@ -58,6 +58,11 @@ RSpec.shared_examples "compliant" do
     sleep(1)
     Process.kill("KILL", pid)
     
+    # Wait for the webserver to terminate operations on that request (the close()
+    # call on the body is usually not immediate, but gets executed once the write
+    # to the client socket fails).
+    sleep 0.9
+    
     written_parts_list = File.read("/tmp/streamer_messages.log").split("\n")
     expect(written_parts_list.length).to be < 6
     
