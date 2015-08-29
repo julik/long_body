@@ -14,6 +14,7 @@ module LongBody::HijackHandler
   def perform(env, s, h, b)
     # Replace the output with our socket moderating technology 2.0
     h[HIJACK_HEADER] = create_socket_writer_lambda_with_body(b)
+    h['X-Accel-Buffering'] = 'no'
     [s, h, []] # Recommended response body for partial hijack is an empty Array
   end
   

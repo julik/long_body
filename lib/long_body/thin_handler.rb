@@ -97,6 +97,9 @@ module LongBody::ThinHandler
     # Wrap in a handler that manages the DeferrableBody
     sender = ResponseSender.new(b)
     
+    # Prevent buffering on Nginx
+    h['X-Accel-Buffering'] = 'no'
+
     # Abort the body sending on both of those.
     env[C_async_close].callback { sender.abort! }
     env[C_async_close].errback { sender.abort! }
