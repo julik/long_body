@@ -61,7 +61,7 @@ server running this gem on 1.9.3+ should be possible as well.
 <table>
   <tr><th>Webserver</th><th>Version tested</th><th>Compatibility</th></tr>
   <tr><td>Puma</td><td>2.13.4</td><td>Yes (use versions >= 2.13.4 due to a bug)</td></tr>
-  <tr><td>Passenger</td><td>5.0.15</td><td>Yes</td></tr>
+  <tr><td>Passenger</td><td>5.0.15</td><td>Yes (only on Apache where PassengerBufferResponse is available and set to "off")</td></tr>
   <tr><td>Thin</td><td>1.6.3</td><td>Yes</td></tr>
   <tr><td>Unicorn</td><td>4.9.0</td><td>Yes (but this is not a recommended use case)</td></tr>
   <tr><td>Rainbows</td><td>4.6.2</td><td>Yes</td></tr>
