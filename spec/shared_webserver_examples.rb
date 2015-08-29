@@ -20,7 +20,31 @@ RSpec.shared_examples "compliant" do
       expect(received_after_previous).to be_within(1).of(0.3)
     end
   end
+  
+  it "demonstrates behavior without LongBody when the response is sent with a Content-Length" do | example |
+    parts = TestDownload.perform("http://0.0.0.0:#{port}/with-content-length-without-long-body")
+    timings = parts.map(&:time_difference)
+    
+   $postrun.puts ""
+   $postrun.puts "#{example.full_description} part receive timings: #{timings.inspect}"
+   $postrun.puts ""
 
+    expect(File).to exist('/tmp/streamer_close.mark')
+    
+    expect(parts.length).to be > 1, "The response should not have been buffered"
+    
+    # Ensure the time recieved of each part is within the tolerances, and certainly
+    # at least 1 second after the previous
+    (1..(parts.length-1)).each do | part_i|
+      this_part = parts[part_i]
+      previous_part = parts[part_i -1]
+      received_after_previous = this_part.time_difference - previous_part.time_difference
+      
+      # Ensure there was some time before this chunk arrived. This is the most important test.
+      expect(received_after_previous).to be_within(1).of(0.3)
+    end
+  end
+  
   it 'when the response is sent in full works with chunked encoding' do | example |
     parts = TestDownload.perform("http://0.0.0.0:#{port}/chunked")
     timings = parts.map(&:time_difference)

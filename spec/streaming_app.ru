@@ -46,6 +46,10 @@ map '/chunked' do
   run Streamer
 end
 
+map '/with-content-length-without-long-body' do
+  run StreamerWithLength
+end
+
 class Skipper < Struct.new(:app)
   def call(env)
     s, h, b = app.call(env)
