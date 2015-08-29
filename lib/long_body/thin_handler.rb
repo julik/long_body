@@ -105,10 +105,4 @@ module LongBody::ThinHandler
     
     AsyncResponse # Let Thin know we are using async.*
   end
-  
-  private
-  
-  def running_with_thin?(env)
-    defined?(Thin) && env[C_async_callback] && env[C_async_callback].respond_to?(:call)
-  end
 end
