@@ -63,9 +63,11 @@ server running this gem on 1.9.3+ should be possible as well.
   <tr><td>Puma</td><td>2.13.4</td><td>Yes (use versions >= 2.13.4 due to a bug)</td></tr>
   <tr><td>Passenger</td><td>5.0.15</td><td>Yes</td></tr>
   <tr><td>Thin</td><td>1.6.3</td><td>Yes</td></tr>
+  <tr><td>Unicorn</td><td>4.9.0</td><td>Yes (but this is not a recommended use case)</td></tr>
   <tr><td>Rainbows</td><td>4.6.2</td><td>Yes</td></tr>
   <tr><td>WEBrick</td><td>stdlib 2.2.1</td><td>No (uses IO.pipe for hijack)</td></tr>
 </table>
+
 
 ## Contributing to long_body
  
