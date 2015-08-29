@@ -41,6 +41,27 @@ RSpec.shared_examples "compliant" do
     end
   end
   
+  it 'bypasses when X-Rack-Long-Body-Skip is set' do | example |
+    parts = TestDownload.perform("http://0.0.0.0:#{port}/explicitly-skipping-long-body")
+    timings = parts.map(&:time_difference)
+    
+#    $postrun.puts example.full_description
+#    $postrun.puts "Part receive timings: #{timings.inspect}"
+#    $postrun.puts ""
+    
+    expect(File).to exist('/tmp/streamer_close.mark')
+  
+    (1..(parts.length-1)).each do | part_i|
+      this_part = parts[part_i]
+      previous_part = parts[part_i -1]
+      received_after_previous = this_part.time_difference - previous_part.time_difference
+      
+      # Ensure there was some time before this chunk arrived. This is the most important test.
+      expect(received_after_previous).to be_within(1).of(0.3)
+    end
+  end
+  
+  
   it 'raises an error if no Content-Length or chunked transfer encoding is set' do
     parts = TestDownload.perform("http://0.0.0.0:#{port}/error-with-unclassified-body")
     response_body = parts.join

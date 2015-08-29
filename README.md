@@ -45,6 +45,13 @@ Streaming a large file, without buffering:
       [200, h, File.open(s, 'rb')]
     }
 
+## Selective bypass
+
+Most requests in your application (assets, HTML pages and so on) probably do not need this and are better to be sent as-is.
+Also, such processing will likely bypass all HTTP caching you set up. `long_body` is "always on" by default. To bypass it,
+send `X-Rack-Long-Body-Skip` header with any truthy contents in your response headers (better use a string value so that
+`Rack::Lint` does not complain).
+
 ## Compatibility
 
 This gem is tested on Ruby 2.2, and should run acceptably well on Ruby 2.+. If you are using Thin it is recommended to

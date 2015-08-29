@@ -46,6 +46,19 @@ map '/chunked' do
   run Streamer
 end
 
+class Skipper < Struct.new(:app)
+  def call(env)
+    s, h, b = app.call(env)
+    [s, h.merge('X-Rack-Long-Body-Skip' => 'yes'), b]
+  end
+end
+
+map '/explicitly-skipping-long-body' do
+  use LongBody
+  use Skipper
+  run Streamer
+end
+
 map '/with-content-length' do
   use LongBody
   run StreamerWithLength

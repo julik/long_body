@@ -46,6 +46,9 @@ class LongBody
     # Call the upstream first
     s, h, b = @app.call(env)
     
+    # Return as-is if the long body skip is requested
+    return [s, h,b] if h.delete('X-Rack-Long-Body-Skip')
+    
     # If the response has nothing to do with the streaming response, just
     # let it go through as it is not big enough to bother. Also if there is no hijack
     # support there is no sense to bother at all.
